@@ -23,6 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        view()->composer('layouts.master','CoderStudios\Composers\MasterComposer');
     }
 }
