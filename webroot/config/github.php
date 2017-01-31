@@ -39,7 +39,7 @@ return [
     'connections' => [
 
         'main' => [
-            'token'      => 'fb53d0dab974015c650d21b1ca1743806cbbc0b7', //Grim Tofu Personal Access Token
+            'token'      => env('GITHUB_PA_TOKEN'), //Grim Tofu Personal Access Token
             'method'     => 'token',
             // 'backoff'    => false,
             // 'cache'      => false,
