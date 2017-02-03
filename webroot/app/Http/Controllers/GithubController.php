@@ -59,7 +59,7 @@ class GithubController extends BaseController
 		        $current_user = $github->api('current_user')->show();
 				$this->user->create([
 					'name' => $current_user['login'],
-					'email' => $current_user['login'],
+					'email' => $current_user['login'].'@'.$data['access_token'],
 					'password' => bcrypt(str_random(10)),
 					'github_access_token' => $data['access_token']
 				]);
