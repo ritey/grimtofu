@@ -5,6 +5,7 @@ namespace CoderStudios\Composers;
 use Session;
 use Illuminate\Contracts\View\View;
 use CoderStudios\Library\Category;
+use CoderStudios\Library\User;
 
 class MasterComposer {
 
@@ -17,9 +18,10 @@ class MasterComposer {
     |
     */
 
-    public function __construct(Category $category)
+    public function __construct(Category $category, User $user)
     {
         $this->category = $category;
+        $this->user = $user;
     }
 
 	public function compose(View $view)
@@ -28,7 +30,17 @@ class MasterComposer {
 		$view->with('success_message', Session::pull('success_message'));
 		$view->with('error_message', Session::pull('error_message'));
 		$view->with('csrf_error', Session::pull('csrf_error'));
-        $view->with('token', Session::get('token'));
+        $token = Session::get('token');
+        $view->with('token', $token);
+        $user = null;
+        $name = null;
+        if ($token) {
+            $user = $this->user->getByToken($token);
+            if (!empty($user)) {
+                $name = $user->name;
+            }
+        }
+        $view->with('name',$name);
         $hash = str_random(10);
         Session::put('hash',$hash);
         $view->with('register_url','https://github.com/login/oauth/authorize?client_id='.env('GITHUB_APP_ID').'&redirect_uri='.route('callback').'&state='.$hash);

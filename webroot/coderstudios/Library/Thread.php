@@ -37,7 +37,7 @@ class Thread extends BaseLibrary {
 		if (!$token) { return; }
 		$github = new GithubClient();
 		$github->authenticate($token,null,'http_token');
-		$github->api('current_user')->issues()->create('ritey','grimtofu', [
+		$github->api('issue')->create('ritey','grimtofu', [
 				'title' => $data['title'],
 				'body' => $data['message'],
 				'labels' => [
