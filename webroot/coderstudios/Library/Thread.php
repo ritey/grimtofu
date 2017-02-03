@@ -46,7 +46,8 @@ class Thread extends BaseLibrary {
 		]);
 		try {
 			$this->github->issues()->update('ritey','grimtofu', $issue['number'],['labels' => [$data['category']]]);
-		} catch ($e) {
+		} catch(\Exception $e) {
+
 		}
 		Cache::flush();
 		return $issue;
