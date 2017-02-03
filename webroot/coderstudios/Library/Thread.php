@@ -45,7 +45,11 @@ class Thread extends BaseLibrary {
 				],
 		]);
 		try {
-			$this->github->issues()->update('ritey','grimtofu', $issue['number'],['labels' => [$data['category']]]);
+			if (strtolower($data['category']) !== 'all') {
+				$this->github->issues()->update('ritey','grimtofu', $issue['number'],['labels' => [$data['category']]]);
+			} else {
+				$this->github->issues()->update('ritey','grimtofu', $issue['number'],['labels' => ['General forum']]);
+			}
 		} catch(\Exception $e) {
 
 		}
