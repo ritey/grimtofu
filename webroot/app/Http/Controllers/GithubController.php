@@ -57,7 +57,12 @@ class GithubController extends BaseController
 		        $github = new GithubClient();
 		        $github->authenticate($data['access_token'],null,'http_token');
 		        $current_user = $github->api('current_user')->show();
-				$this->user->create(['name' => $current_user['login'], 'email' => $current_user['login'], 'github_access_token' => $data['access_token']]);
+				$this->user->create([
+					'name' => $current_user['login'],
+					'email' => $current_user['login'],
+					'password' => bcrypt(str_random(10)),
+					'github_access_token' => $data['access_token']
+				]);
 			}
 			$this->request->session()->put('token',$data['access_token']);
 		}
