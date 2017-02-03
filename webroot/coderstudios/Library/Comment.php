@@ -4,6 +4,7 @@ namespace CoderStudios\Library;
 
 use Cache;
 use GrahamCampbell\GitHub\GitHubManager;
+use Github\Client as GithubClient;
 use Session;
 
 class Comment extends BaseLibrary {
