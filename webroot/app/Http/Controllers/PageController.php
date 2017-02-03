@@ -57,6 +57,9 @@ class PageController extends BaseController
 
     public function newThread()
     {
+        if (!$this->request->session()->get('token')) {
+            return redirect()->route('index');
+        }
         $vars = [
             'error_message' => '',
             'categories' => $this->category->all(),
