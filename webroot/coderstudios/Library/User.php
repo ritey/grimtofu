@@ -38,7 +38,7 @@ class User extends BaseLibrary {
 		if (Cache::has($key)) {
 			$data = Cache::get($key);
 		} else {
-			$data = $this->user->where('github_token',$token)->first();
+			$data = $this->user->where('github_access_token',$token)->first();
 			Cache::add($key, $data, (60*6));
 		}
 
