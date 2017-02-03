@@ -1,5 +1,9 @@
 @extends('layouts.master')
 
+@section('page_title')
+{{ $vars['thread'][0]['labels'][0]['name'] }} | {{ $vars['thread'][0]['title'] }}
+@endsection
+
 @section('content')
 
 <div>
@@ -16,6 +20,7 @@
        <p>{{ $item['body'] }}</p>
     </div>
     @endforeach
+
     <div>
         <form method="POST" action="{{ route('save.comment') }}" role="form" class="form-horizontal">
             <input type="hidden" name="clear" />
@@ -46,6 +51,21 @@
             @endif
         </form>
     </div>
+
+
+    <div class="row">
+
+        <div class="col-sm-12">
+
+            <div class="justify-content-center">
+                {!! $vars['comments']->links() !!}
+            </div>
+
+        </div>
+
+    </div>
+
+
 </div>
 
 @endsection
