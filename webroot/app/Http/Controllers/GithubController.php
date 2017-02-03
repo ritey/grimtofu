@@ -52,6 +52,10 @@ class GithubController extends BaseController
 		$data = [];
 		parse_str($str,$data);
 		if (isset($data['access_token']) && !empty($data['access_token'])) {
+			$github = new GithubClient();
+			$github->authenticate($data['access_token'],null,'http_token');
+			$current_user = $github->api('current_user')->show();
+			Session::put('name',$current_user['login']);
 			/*$user = $this->user->where('github_access_token',$data['access_token'])->first();
 			if (!$user) {
 		        $github = new GithubClient();

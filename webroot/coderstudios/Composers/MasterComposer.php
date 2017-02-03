@@ -35,11 +35,7 @@ class MasterComposer {
         $user = null;
         $name = null;
         if ($token) {
-            $user = $this->user->getByToken($token);
-            if (!empty($user)) {
-                $name = $user->name;
-                Session::put('name',$user->name);
-            }
+            $name = Session::get('name');
         }
         $view->with('name',$name);
         $hash = str_random(10);
