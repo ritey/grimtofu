@@ -37,13 +37,15 @@ class Thread extends BaseLibrary {
 		if (!$token) { return; }
 		$github = new GithubClient();
 		$github->authenticate($token,null,'http_token');
-		return $github->api('issue')->create('ritey','grimtofu', [
+		$issue = $github->api('issue')->create('ritey','grimtofu', [
 				'title' => $data['title'],
 				'body' => $data['message'],
 				'labels' => [
 					$data['category']
 				],
 		]);
+		$this->github->issues()->update('ritey','grimtofu', $issue['number'],['labels' => [$data['category']]]);
+		return $issue;
 	}
 
 	public function threads($channel)
