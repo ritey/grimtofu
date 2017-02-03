@@ -4,6 +4,8 @@ namespace CoderStudios\Library;
 
 use Cache;
 use GrahamCampbell\GitHub\GitHubManager;
+use Github\Client as GithubClient;
+use Session;
 
 class Thread extends BaseLibrary {
 
@@ -31,7 +33,11 @@ class Thread extends BaseLibrary {
 
 	public function create($data)
 	{
-		return $this->github->issues()->create('ritey','grimtofu', [
+		$token = Session::get('token');
+		if (!$token) { return; }
+		$github = new GithubClient();
+		$github->authenticate($token,null,'http_token');
+		$github->api('current_user')->issues()->create('ritey','grimtofu', [
 				'title' => $data['title'],
 				'body' => $data['message'],
 				'labels' => [
