@@ -38,6 +38,12 @@ class HomeController extends BaseController
 		$this->cache = $cache;
 	}
 
+    public function logout()
+    {
+        $this->request->session()->flush();
+        return redirect()->route('index');
+    }
+
 	public function index()
 	{
         /*

@@ -28,6 +28,7 @@ class MasterComposer {
 		$view->with('success_message', Session::pull('success_message'));
 		$view->with('error_message', Session::pull('error_message'));
 		$view->with('csrf_error', Session::pull('csrf_error'));
+        $view->with('token', Session::pull('token'));
         $hash = str_random(10);
         Session::put('hash',$hash);
         $view->with('register_url','https://github.com/login/oauth/authorize?client_id='.env('GITHUB_APP_ID').'&redirect_uri='.route('callback').'&state='.$hash);

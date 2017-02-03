@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use GuzzleHttp\Client;
 use CoderStudios\Models\User;
+use Github\Client as GithubClient;
 
 class GithubController extends BaseController
 {
@@ -51,9 +52,12 @@ class GithubController extends BaseController
 		$data = [];
 		parse_str($str,$data);
 		if (isset($data['access_token']) && !empty($data['access_token'])) {
-			$user = $this->user->where('github_access_token',$data['access_token']);
+			$user = $this->user->where('github_access_token',$data['access_token'])->first();
 			if (!$user) {
-				$this->user->create(['github_access_token' => $data['access_token']]);
+		        $github = new GithubClient();
+		        $github->authenticate($data['access_token'],null,'http_token');
+		        $current_user = $github->api('current_user')->show();
+				$this->user->create(['name' => $current_user['login'], 'github_access_token' => $data['access_token']]);
 			}
 			$this->request->session()->put('token',$data['access_token']);
 		}

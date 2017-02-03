@@ -16,8 +16,12 @@
 			<div class="col-sm-12">
 
 				<ul class="nav justify-content-end">
+					@if(!$token)
 					<li class="nav-item"><a class="nav-link" href="{{ $register_url }}">Login</a></li>
 					<li class="nav-item"><a class="nav-link" href="{{ $register_url }}">Register</a></li>
+					@else
+					<li class="nav-item"><a class="nav-link" href="{{ route('clear-session') }}">Logout</a></li>
+					@endif
 				</ul>
 
 			</div>

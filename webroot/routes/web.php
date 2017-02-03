@@ -13,6 +13,8 @@
 
 Route::get('/',['as' => 'home', 'uses' => 'HomeController@index']);
 
+Route::get('/logout',['as' => 'clear-session', 'uses' => 'HomeController@logout']);
+
 Route::get('/index', ['as' => 'index', 'uses' => 'PageController@index']);
 Route::get('/new', ['as' => 'new', 'uses' => 'PageController@newThread']);
 Route::post('/new', ['as' => 'save.thread', 'uses' => 'PageController@saveThread']);
