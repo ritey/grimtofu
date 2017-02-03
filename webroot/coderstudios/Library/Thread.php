@@ -38,7 +38,7 @@ class Thread extends BaseLibrary {
 		$github = new GithubClient();
 		$github->authenticate($token,null,'http_token');
 		$issue = $github->api('issue')->create('ritey','grimtofu', [
-				'title' => $data['title'],
+				'title' => str_replace('?','[question_mark]',$data['title']),
 				'body' => $data['message'],
 				'labels' => [
 					$data['category']

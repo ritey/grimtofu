@@ -95,6 +95,7 @@ class PageController extends BaseController
         $thread = $this->github->issues()->show('ritey','grimtofu', $title[1]);
         $categories = $this->github->issues()->labels()->all('ritey','grimtofu');
         $comments = $this->github->issues()->comments()->all('ritey','grimtofu', $title[1]);
+        $thread['title'] = str_replace('[question_mark]','?',$thread['title']);
         $vars = [
             'categories'    => $categories,
             'thread'        => [0 => $thread],
