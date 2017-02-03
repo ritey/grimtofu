@@ -88,7 +88,7 @@ class PageController extends BaseController
             $view = view('pages.new',compact('vars'))->render();
             $this->cache->add($key, $view, env('APP_CACHE_MINUTES',60));
         }
-        return $view
+        return $view;
     }
 
     public function saveThread(ThreadRequest $request)
