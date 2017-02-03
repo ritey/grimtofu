@@ -96,11 +96,13 @@ class PageController extends BaseController
         $categories = $this->github->issues()->labels()->all('ritey','grimtofu');
         $comments = $this->github->issues()->comments()->all('ritey','grimtofu', $title[1]);
         $thread['title'] = str_replace('[question_mark]','?',$thread['title']);
+        $token = $this->request->session()->get('token');
         $vars = [
             'categories'    => $categories,
             'thread'        => [0 => $thread],
             'comments'      => $comments,
             'id'            => $title[1],
+            'token'         => $token,
         ];
         return view('pages.thread',compact('vars'));
     }

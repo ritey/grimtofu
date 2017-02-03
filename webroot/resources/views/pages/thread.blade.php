@@ -21,6 +21,7 @@
             <input type="hidden" name="clear" />
             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
+            @if($token)
             <div class="form-group row">
                 <label for="message" class="col-sm-2 control-label sr-only">Message</label>
                 <div class="col-sm-12">
@@ -42,6 +43,7 @@
                     <button type="submit" class="btn btn-primary">Reply</button>
                 </div>
             </div>
+            @endif
         </form>
     </div>
 </div>

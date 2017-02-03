@@ -52,7 +52,7 @@ class GithubController extends BaseController
 		$data = [];
 		parse_str($str,$data);
 		if (isset($data['access_token']) && !empty($data['access_token'])) {
-			$user = $this->user->where('github_access_token',$data['access_token'])->first();
+			/*$user = $this->user->where('github_access_token',$data['access_token'])->first();
 			if (!$user) {
 		        $github = new GithubClient();
 		        $github->authenticate($data['access_token'],null,'http_token');
@@ -63,7 +63,7 @@ class GithubController extends BaseController
 					'password' => bcrypt(str_random(10)),
 					'github_access_token' => $data['access_token']
 				]);
-			}
+			}*/
 			$this->request->session()->put('token',$data['access_token']);
 		}
 		return redirect()->route('index');
