@@ -38,6 +38,7 @@ class MasterComposer {
             $user = $this->user->getByToken($token);
             if (!empty($user)) {
                 $name = $user->name;
+                Session::put('name',$user->name);
             }
         }
         $view->with('name',$name);
