@@ -4,11 +4,11 @@ namespace CoderStudios\Library;
 
 use Cache;
 use Session;
-use CoderStudios\Models\User;
+use CoderStudios\Models\User as UserModel;
 
 class User extends BaseLibrary {
 
-	public function __construct(User $user)
+	public function __construct(UserModel $user)
 	{
 		$this->namespace = __NAMESPACE__;
 		$this->basename = class_basename($this);
