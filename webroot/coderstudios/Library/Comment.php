@@ -4,6 +4,7 @@ namespace CoderStudios\Library;
 
 use Cache;
 use GrahamCampbell\GitHub\GitHubManager;
+use Session;
 
 class Comment extends BaseLibrary {
 
@@ -16,11 +17,16 @@ class Comment extends BaseLibrary {
 
 	public function create($data)
 	{
-		return $this->github->issues()->comments()->create('ritey','grimtofu', $data['id'],
-			[
+		$token = Session::get('token');
+		if (!$token) { return; }
+		$github = new GithubClient();
+		$github->authenticate($token,null,'http_token');
+		$comment = $github->api('issue')->comments()->create('ritey','grimtofu', $data['id'], [
 				'body' => $data['message'],
-			]
-		);
+		]);
+		Cache::flush();
+
+		return $comment;
 	}
 
 }
