@@ -6,6 +6,7 @@ use Session;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use GuzzleHttp\Client;
+use CoderStudios\Models\User;
 
 class GithubController extends BaseController
 {
@@ -21,13 +22,14 @@ class GithubController extends BaseController
      *
      * @return void
      */
-	public function __construct(Cache $cache, Request $request, Client $httpClient)
+	public function __construct(Cache $cache, Request $request, Client $httpClient, User $user)
 	{
 		parent::__construct($cache);
 		$this->namespace = __NAMESPACE__;
 		$this->basename = class_basename($this);
 		$this->request = $request;
 		$this->httpClient = $httpClient;
+		$this->user = $user;
 	}
 
 	public function callback()
@@ -37,12 +39,24 @@ class GithubController extends BaseController
 			return redirect()->route('index');
 		}
 		$r = $this->httpClient->request('POST','https://github.com/login/oauth/access_token', [
-			'client_id' 		=> env('GITHUB_APP_ID'),
-			'client_secret'		=> env('GITHUB_SECRET'),
-			'code'				=> $this->request->get('code'),
-			'redirect_uri'		=> route('callback'),
-			'state'				=> $hash,
+			'form_params' => [
+				'client_id' 		=> env('GITHUB_APP_ID'),
+				'client_secret'		=> env('GITHUB_SECRET'),
+				'code'				=> $this->request->get('code'),
+				'redirect_uri'		=> route('callback'),
+				'state'				=> $hash,
+			],
 		]);
-		dd($r);
+		$str = $r->getBody()->getContents();
+		$data = [];
+		parse_str($str,$data);
+		if (isset($data['access_token']) && !empty($data['access_token'])) {
+			$user = $this->user->where('github_access_token',$data['access_token']);
+			if (!$user) {
+				$this->user->create(['github_access_token' => $data['access_token']]);
+			}
+			$this->request->session()->put('token',$data['access_token']);
+		}
+		return redirect()->route('index');
 	}
 }
