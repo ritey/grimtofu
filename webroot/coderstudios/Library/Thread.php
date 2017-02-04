@@ -6,6 +6,7 @@ use Cache;
 use GrahamCampbell\GitHub\GitHubManager;
 use Github\Client as GithubClient;
 use Session;
+use Carbon\Carbon;
 
 class Thread extends BaseLibrary {
 
@@ -85,6 +86,29 @@ class Thread extends BaseLibrary {
 		}
 
 		return $data;
+	}
+
+	public function formatArray(array $threads)
+	{
+		$a = [];
+		if (is_array($threads) && count($threads)) {
+			foreach($threads as $item) {
+	            $a[] = [
+	                'number'        => $item['number'],
+	                'title'         => $item['title'],
+	                'comments'      => $item['comments'],
+	                'clean_title'   => str_replace('[question_mark]','?',$item['title']),
+	                'slug'          => str_replace(' ','-',strtolower($item['title'])) . '::' . $item['number'],
+	                'label'         => isset($item['labels'][0]) ? $item['labels'][0]['name'] : '',
+	                'body'          => $item['body'],
+	                'created_at'    => Carbon::now()->subseconds(Carbon::now()->diffInSeconds(Carbon::parse($item['created_at'])))->diffForHumans(),
+	                'updated_at'    => Carbon::parse($item['updated_at'])->format('d-m-Y'),
+	                'username'      => $item['user']['login'],
+	                'avatar'        => $item['user']['avatar_url'],
+	            ];
+	        }
+	    }
+        return $a;
 	}
 
 }

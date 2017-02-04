@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Cache\Repository as Cache;
-use GrahamCampbell\GitHub\GitHubManager;
 use CoderStudios\Library\Category;
 use CoderStudios\Library\Thread;
 use CoderStudios\Library\Comment;
 use CoderStudios\Requests\Thread as ThreadRequest;
 use CoderStudios\Requests\Comment as CommentRequest;
-use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 
 class PageController extends BaseController
 {
@@ -34,14 +32,13 @@ class PageController extends BaseController
      *
      * @return void
      */
-	public function __construct(Request $request, Cache $cache, GitHubManager $github, Thread $thread, Category $category, Comment $comment)
+	public function __construct(Request $request, Cache $cache, Thread $thread, Category $category, Comment $comment)
 	{
 		parent::__construct($cache);
 		$this->namespace = __NAMESPACE__;
 		$this->basename = class_basename($this);
 		$this->request = $request;
 		$this->cache = $cache;
-        $this->github = $github;
         $this->category = $category;
         $this->thread = $thread;
         $this->comment = $comment;
@@ -63,28 +60,9 @@ class PageController extends BaseController
             if (count($threads) > $limit) {
                 $sliced_threads = array_slice($threads,$page,$limit);
             }
-            $th = [];
-            foreach($sliced_threads as $item) {
-                $th[] = [
-                    'number'        => $item['number'],
-                    'title'         => $item['title'],
-                    'comments'      => $item['comments'],
-                    'clean_title'   => str_replace('[question_mark]','?',$item['title']),
-                    'slug'          => str_replace(' ','-',strtolower($item['title'])) . '::' . $item['number'],
-                    'label'         => isset($item['labels'][0]) ? $item['labels'][0]['name'] : '',
-                    'body'          => $item['body'],
-                    'created_at'    => $item['created_at'],
-                    'updated_at'    => $item['updated_at'],
-                    'username'      => $item['user']['login'],
-                    'avatar'        => $item['user']['avatar_url'],
-                ];
-            }
-            $t = new Paginator($th,count($threads),$limit,$page, [
-                'path'  => $this->request->url(),
-                'query' => $this->request->query(),
-            ]);
+            $th = $this->thread->formatArray($sliced_threads);
             $vars = [
-                'threads' => $t,
+                'threads' => $this->thread->paginate($th, count($threads), $limit, $page, $this->request),
             ];
             $view = view('pages.index',compact('vars'))->render();
             $this->cache->add($key, $view, env('APP_CACHE_MINUTES',60));
@@ -138,13 +116,14 @@ class PageController extends BaseController
         if (env('CACHE_ENABLED',0) && $this->cache->has($key)) {
             $view = $this->cache->get($key);
         } else {
-            $threads = $this->github->issues()->all('ritey','grimtofu', ['state' => 'open', 'labels' => $channel ]);
-            $t = new Paginator(array_slice($threads,$page-1,$limit),count($threads),$limit,$page, [
-                'path' => $this->request->url(),
-                'query' => $this->request->query(),
-            ]);
+            $threads = $this->thread->threads($channel);
+            $sliced_threads = $threads;
+            if (count($threads) > $limit) {
+                $sliced_threads = array_slice($threads,$page,$limit);
+            }
+            $th = $this->thread->formatArray($sliced_threads);
             $vars = [
-                'threads' => $t,
+                'threads' => $this->thread->paginate($th, count($threads), $limit, $page, $this->request),
             ];
             $view = view('pages.threads',compact('vars'))->render();
             $this->cache->add($key, $view, env('APP_CACHE_MINUTES',60));
@@ -164,19 +143,18 @@ class PageController extends BaseController
             $view = $this->cache->get($key);
         } else {
             $title = explode('::', $thread);
-            $thread = $this->github->issues()->show('ritey','grimtofu', $title[1]);
-            $categories = $this->github->issues()->labels()->all('ritey','grimtofu');
-            $comments = $this->github->issues()->comments()->all('ritey','grimtofu', $title[1]);
-            $c = new Paginator(array_slice($comments,$page-1,$limit),count($comments),$limit,$page, [
-                'path' => $this->request->url(),
-                'query' => $this->request->query(),
-            ]);
+            $thread = $this->thread->show($title[1]);
+            $comments = $this->comment->all($title[1]);
+            $sliced_comments = $comments;
+            if (count($comments) > $limit-1) {
+                $sliced_comments = array_slice($comments,$page,$limit-1);
+            }
+            $cs = $this->comment->formatArray($sliced_comments);
             $thread['title'] = str_replace('[question_mark]','?',$thread['title']);
             $token = $this->request->session()->get('token');
             $vars = [
-                'categories'    => $categories,
-                'thread'        => [0 => $thread],
-                'comments'      => $c,
+                'thread'        => $this->thread->formatArray([0 => $thread]),
+                'comments'      => $this->comment->paginate($cs, count($comments), $limit, $page, $this->request),
                 'id'            => $title[1],
                 'token'         => $token,
             ];

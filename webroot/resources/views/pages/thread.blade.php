@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('page_title')
-{{ $vars['thread'][0]['labels'][0]['name'] }} | {{ $vars['thread'][0]['title'] }}
+{{ $vars['thread'][0]['label'] }} | {{ $vars['thread'][0]['title'] }}
 @endsection
 
 @section('content')
@@ -10,23 +10,23 @@
     @foreach($vars['thread'] as $item)
     <div>
        <h2>{{ $item['title'] }}</h2>
-       <p><a href="">{{ $item['user']['login'] }}</a> &middot; {{ $item['created_at'] }}</p>
+       <p><a href="">{{ $item['username'] }}</a> &middot; {{ $item['created_at'] }}</p>
        <p>{{ $item['body'] }}</p>
     </div>
     @endforeach
     @foreach($vars['comments'] as $item)
     <div>
-       <p><a href="">{{ $item['user']['login'] }}</a> &middot; {{ $item['created_at'] }}</p>
+       <p><a href="">{{ $item['username'] }}</a> &middot; {{ $item['created_at'] }}</p>
        <p>{{ $item['body'] }}</p>
     </div>
     @endforeach
 
+    @if($vars['token'])
     <div>
         <form method="POST" action="{{ route('save.comment') }}" role="form" class="form-horizontal">
             <input type="hidden" name="clear" />
             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
-            @if($vars['token'])
             <div class="form-group row">
                 <label for="message" class="col-sm-2 control-label sr-only">Message</label>
                 <div class="col-sm-12">
@@ -48,10 +48,9 @@
                     <button type="submit" class="btn btn-primary">Reply</button>
                 </div>
             </div>
-            @endif
         </form>
     </div>
-
+    @endif
 
     <div class="row">
 
