@@ -38,8 +38,6 @@ class MasterComposer {
             $name = Session::get('name');
         }
         $view->with('name',$name);
-        $hash = str_random(10);
-        Session::put('hash',$hash);
-        $view->with('register_url','https://github.com/login/oauth/authorize?client_id='.env('GITHUB_APP_ID').'&redirect_uri='.route('callback').'&state='.$hash.'&scope=public_repo');
+        $view->with('register_url',route('github_link'));
 	}
 }

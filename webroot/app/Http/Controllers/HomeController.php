@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use GrahamCampbell\GitHub\GitHubManager;
+use Session;
 
 class HomeController extends BaseController
 {
@@ -42,6 +43,13 @@ class HomeController extends BaseController
     {
         $this->request->session()->flush();
         return redirect()->route('index');
+    }
+
+    public function github()
+    {
+        $hash = str_random(10);
+        Session::put('hash',$hash);
+        return redirect('https://github.com/login/oauth/authorize?client_id='.env('GITHUB_APP_ID').'&redirect_uri='.route('callback').'&state='.$hash.'&scope=public_repo');
     }
 
 	public function index()

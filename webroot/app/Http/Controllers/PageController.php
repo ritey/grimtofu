@@ -59,7 +59,27 @@ class PageController extends BaseController
             $view = $this->cache->get($key);
         } else {
             $threads = $this->thread->all();
-            $t = new Paginator(array_slice($threads,$page,$limit),count($threads),$limit,$page, [
+            $sliced_threads = $threads;
+            if (count($threads) > $limit) {
+                $sliced_threads = array_slice($threads,$page,$limit);
+            }
+            $th = [];
+            foreach($sliced_threads as $item) {
+                $th[] = [
+                    'number'        => $item['number'],
+                    'title'         => $item['title'],
+                    'comments'      => $item['comments'],
+                    'clean_title'   => str_replace('[question_mark]','?',$item['title']),
+                    'slug'          => str_replace(' ','-',strtolower($item['title'])) . '::' . $item['number'],
+                    'label'         => isset($item['labels'][0]) ? $item['labels'][0]['name'] : '',
+                    'body'          => $item['body'],
+                    'created_at'    => $item['created_at'],
+                    'updated_at'    => $item['updated_at'],
+                    'username'      => $item['user']['login'],
+                    'avatar'        => $item['user']['avatar_url'],
+                ];
+            }
+            $t = new Paginator($th,count($threads),$limit,$page, [
                 'path'  => $this->request->url(),
                 'query' => $this->request->query(),
             ]);
@@ -119,7 +139,7 @@ class PageController extends BaseController
             $view = $this->cache->get($key);
         } else {
             $threads = $this->github->issues()->all('ritey','grimtofu', ['state' => 'open', 'labels' => $channel ]);
-            $t = new Paginator(array_slice($threads,$page,$limit),count($threads),$limit,$page, [
+            $t = new Paginator(array_slice($threads,$page-1,$limit),count($threads),$limit,$page, [
                 'path' => $this->request->url(),
                 'query' => $this->request->query(),
             ]);
@@ -147,7 +167,7 @@ class PageController extends BaseController
             $thread = $this->github->issues()->show('ritey','grimtofu', $title[1]);
             $categories = $this->github->issues()->labels()->all('ritey','grimtofu');
             $comments = $this->github->issues()->comments()->all('ritey','grimtofu', $title[1]);
-            $c = new Paginator(array_slice($comments,$page,$limit),count($comments),$limit,$page, [
+            $c = new Paginator(array_slice($comments,$page-1,$limit),count($comments),$limit,$page, [
                 'path' => $this->request->url(),
                 'query' => $this->request->query(),
             ]);
