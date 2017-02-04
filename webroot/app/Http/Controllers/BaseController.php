@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Contracts\Cache\Repository as Cache;
+use Session;
 
 class BaseController extends Controller
 {
@@ -18,6 +19,9 @@ class BaseController extends Controller
 	}
 
 	protected function getKeyName($string) {
+		if (Session::get('token')) {
+			$string = $string . '|' . Session::get('token');
+		}
 		return md5(snake_case(str_replace('\\','',$this->namespace) . $this->basename . '_' . $string));
 	}
 

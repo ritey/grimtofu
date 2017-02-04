@@ -77,6 +77,7 @@ class PageController extends BaseController
         if (!$this->request->session()->get('token')) {
             return redirect()->route('index');
         }
+        $key = $this->getKeyName(__function__);
         if ($this->cache->has($key)) {
             $view = $this->cache->get($key);
         } else {
