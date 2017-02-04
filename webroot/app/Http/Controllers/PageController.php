@@ -85,6 +85,7 @@ class PageController extends BaseController
         } else {
             $vars = [
                 'error_message' => '',
+                'channel'       => $this->request->get('channel'),
                 'categories'    => $this->category->all(),
                 'request'       => $this->request,
             ];
@@ -114,6 +115,7 @@ class PageController extends BaseController
         $page = 1;
         $limit = 10;
         $offset = 0;
+        $this->request->session()->put('channel',$channel);
         if ($this->request->get('page'))
             $page = $this->request->get('page');
         if ($page > 1)

@@ -34,11 +34,11 @@
                         <label for="category" class="col-sm-2 control-label">Category</label>
                         <div class="col-sm-10">
                             <div class="row">
-                                <div class="col-sm-4">
+                                <div class="col-sm-8">
                                     <select name="category" id="category" class="form-control">
                                         <option value="all">All</option>
                                         @foreach($vars['categories'] as $item)
-                                            @if ($vars['request']->old('category') == $item['name'])
+                                            @if ($vars['request']->old('category') == $item['name'] || $vars['channel'] == strtolower($item['name']))
                                                 <option value="{{ $item['name'] }}" selected>{{ $item['name'] }}</option>
                                             @else
                                                 <option value="{{ $item['name'] }}">{{ $item['name'] }}</option>

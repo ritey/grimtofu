@@ -30,14 +30,13 @@ class MasterComposer {
 		$view->with('success_message', Session::pull('success_message'));
 		$view->with('error_message', Session::pull('error_message'));
 		$view->with('csrf_error', Session::pull('csrf_error'));
+        $view->with('channel', Session::get('channel'));
         $token = Session::get('token');
         $view->with('token', $token);
-        $user = null;
         $name = null;
         if ($token) {
             $name = Session::get('name');
         }
         $view->with('name',$name);
-        $view->with('register_url',route('github_link'));
 	}
 }

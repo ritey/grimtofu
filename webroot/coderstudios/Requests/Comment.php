@@ -24,7 +24,7 @@ class Comment extends Request {
 	public function rules()
 	{
 		$rules = [
-			'message'		=> 'required|max:2048',
+			'message'		=> 'required|max:2048|min:2',
 		];
 
 		return $rules;
