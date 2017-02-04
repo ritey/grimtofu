@@ -32,17 +32,17 @@
     @endforeach
 
     @if($vars['token'])
-    <div class="row">
+    <div class="row reply">
         <div class="col-sm-12">
             <form method="POST" action="{{ route('save.comment') }}" role="form" class="form-horizontal">
                 <input type="hidden" name="clear" />
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
-                <div class="form-group row">
+                <div class="form-group row reply">
                     <label for="message" class="col-sm-2 control-label sr-only">Message</label>
                     <div class="col-sm-12">
                         <div class="row reply">
-                            <div class="col-sm-12">
+                            <div class="col-sm-10 offset-sm-1">
                                 <textarea autocomplete="false" id="message" name="message" class="form-control" rows="6" placeholder="Leave a comment">{{ old('message') }}</textarea>
                                 @if ($errors->has('message'))
                                     <span class="form-text error">

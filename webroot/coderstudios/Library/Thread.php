@@ -83,7 +83,11 @@ class Thread extends BaseLibrary {
 		if (env('CACHE_ENABLED',0) && Cache::has($key)) {
 			$data = Cache::get($key);
 		} else {
-			$data = $this->github->issues()->show('ritey','grimtofu', $number);
+			try {
+				$data = $this->github->issues()->show('ritey','grimtofu', $number);
+			} catch(\Exception $e) {
+				Abort(404);
+			}
 			Cache::add($key, $data, (60*6));
 		}
 
