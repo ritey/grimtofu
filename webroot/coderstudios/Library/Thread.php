@@ -46,13 +46,13 @@ class Thread extends BaseLibrary {
 				],
 		]);
 		try {
-			if (strtolower($data['category']) !== 'all') {
-				$this->github->issues()->update('ritey','grimtofu', $issue['number'],['labels' => [$data['category']]]);
-			} else {
+			if (strtolower($data['category']) === 'all') {
 				$this->github->issues()->update('ritey','grimtofu', $issue['number'],['labels' => ['General forum']]);
+			} else {
+				$this->github->issues()->update('ritey','grimtofu', $issue['number'],['labels' => [$data['category']]]);
 			}
 		} catch(\Exception $e) {
-
+			Log::info('Create error' . print_r($e));
 		}
 		Cache::flush();
 		return $issue;
