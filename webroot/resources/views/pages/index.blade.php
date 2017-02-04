@@ -9,8 +9,8 @@ All threads
 <div class="container">
     @foreach($vars['threads'] as $item)
     <div class="row">
-        <div class="col-sm-1 avatar">
-            <img src="{{ $item['avatar'] }}" alt="{{ $item['username'] }}" />
+        <div class="col-sm-1">
+            <img class="avatar" src="{{ $item['avatar'] }}" alt="{{ $item['username'] }}" />
         </div>
         <div class="col-sm-10 item">
 
