@@ -7,6 +7,7 @@ use Illuminate\Contracts\Cache\Repository as Cache;
 use CoderStudios\Library\Category;
 use CoderStudios\Library\Thread;
 use CoderStudios\Library\Comment;
+use CoderStudios\Library\User;
 use CoderStudios\Requests\Thread as ThreadRequest;
 use CoderStudios\Requests\Comment as CommentRequest;
 
@@ -32,7 +33,7 @@ class PageController extends BaseController
      *
      * @return void
      */
-	public function __construct(Request $request, Cache $cache, Thread $thread, Category $category, Comment $comment)
+	public function __construct(Request $request, Cache $cache, Thread $thread, Category $category, Comment $comment, User $user)
 	{
 		parent::__construct($cache);
 		$this->namespace = __NAMESPACE__;
@@ -42,6 +43,7 @@ class PageController extends BaseController
         $this->category = $category;
         $this->thread = $thread;
         $this->comment = $comment;
+        $this->user = $user;
 	}
 
 	public function index()
@@ -174,4 +176,19 @@ class PageController extends BaseController
         return $view;
     }
 
+    public function user($username = '')
+    {
+        $key = $this->getKeyName(__function__ . '|' . $username);
+        if (env('CACHE_ENABLED',0) && $this->cache->has($key)) {
+            $view = $this->cache->get($key);
+        } else {
+            $vars = [
+                'user' => $this->user->getByUsername($username),
+                'threads' => $this->thread->threadsByUsername($username),
+            ];
+            $view = view('pages.user',compact('vars'))->render();
+            $this->cache->add($key, $view, env('APP_CACHE_MINUTES',60));
+        }
+        return $view;
+    }
 }

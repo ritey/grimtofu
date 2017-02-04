@@ -21,5 +21,6 @@ Route::post('/new', ['as' => 'save.thread', 'uses' => 'PageController@saveThread
 Route::post('/comment', ['as' => 'save.comment', 'uses' => 'PageController@saveComment']);
 Route::get('/channels/{channel}', ['as' => 'channel', 'uses' => 'PageController@channel']);
 Route::get('/channels/{channel}/{title}', ['as' => 'thread', 'uses' => 'PageController@thread']);
+Route::get('/u/{username}', ['as' => 'user', 'uses' => 'PageController@user']);
 
 Route::get('/oauth/callback',['as' => 'callback', 'uses' => 'GithubController@callback']);

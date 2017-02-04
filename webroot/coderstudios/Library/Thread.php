@@ -75,6 +75,21 @@ class Thread extends BaseLibrary {
 		return $data;
 	}
 
+	public function threadsByUsername($username)
+	{
+		$data = [];
+
+		$key = $this->getKeyName(__function__);
+		if (env('CACHE_ENABLED',0) && Cache::has($key)) {
+			$data = Cache::get($key);
+		} else {
+			$data = $this->github->issues()->all('ritey','grimtofu', ['state' => 'open', 'creator' => $username, 'sort' => 'updated']);
+			Cache::add($key, $data, (60*6));
+		}
+
+		return $data;
+	}
+
 	public function show($number)
 	{
 		$data = [];
