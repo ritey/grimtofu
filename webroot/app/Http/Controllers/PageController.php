@@ -55,7 +55,7 @@ class PageController extends BaseController
             $page = $this->request->get('page');
         }
         $key = $this->getKeyName(__function__ . '|' . $page);
-        if ($this->cache->has($key)) {
+        if (env('CACHE_ENABLED',0) && $this->cache->has($key)) {
             $view = $this->cache->get($key);
         } else {
             $threads = $this->thread->all();
@@ -78,7 +78,7 @@ class PageController extends BaseController
             return redirect()->route('index');
         }
         $key = $this->getKeyName(__function__);
-        if ($this->cache->has($key)) {
+        if (env('CACHE_ENABLED',0) && $this->cache->has($key)) {
             $view = $this->cache->get($key);
         } else {
             $vars = [
@@ -115,7 +115,7 @@ class PageController extends BaseController
             $page = $this->request->get('page');
         }
         $key = $this->getKeyName(__function__ . '|' . $channel . '|' . $page);
-        if ($this->cache->has($key)) {
+        if (env('CACHE_ENABLED',0) && $this->cache->has($key)) {
             $view = $this->cache->get($key);
         } else {
             $threads = $this->github->issues()->all('ritey','grimtofu', ['state' => 'open', 'labels' => $channel ]);
@@ -140,7 +140,7 @@ class PageController extends BaseController
             $page = $this->request->get('page');
         }
         $key = $this->getKeyName(__function__ . '|' . $channel . '|' . $thread . '|' . $page);
-        if ($this->cache->has($key)) {
+        if (env('CACHE_ENABLED',0) && $this->cache->has($key)) {
             $view = $this->cache->get($key);
         } else {
             $title = explode('::', $thread);

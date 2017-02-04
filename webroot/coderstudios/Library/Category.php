@@ -19,7 +19,7 @@ class Category extends BaseLibrary {
 		$data = [];
 
 		$key = $this->getKeyName(__function__);
-		if (Cache::has($key)) {
+		if (env('CACHE_ENABLED',0) && Cache::has($key)) {
 			$data = Cache::get($key);
 		} else {
 			$data = $this->github->issues()->labels()->all('ritey','grimtofu');

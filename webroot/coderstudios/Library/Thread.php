@@ -21,7 +21,7 @@ class Thread extends BaseLibrary {
 		$data = [];
 
 		$key = $this->getKeyName(__function__);
-		if (Cache::has($key)) {
+		if (env('CACHE_ENABLED',0) && Cache::has($key)) {
 			$data = Cache::get($key);
 		} else {
 			$data = $this->github->issues()->all('ritey','grimtofu', ['state' => 'open']);
@@ -62,7 +62,7 @@ class Thread extends BaseLibrary {
 		$data = [];
 
 		$key = $this->getKeyName(__function__);
-		if (Cache::has($key)) {
+		if (env('CACHE_ENABLED',0) && Cache::has($key)) {
 			$data = Cache::get($key);
 		} else {
 			$data = $this->github->issues()->all('ritey','grimtofu', ['state' => 'open', 'labels' => $channel ]);
@@ -77,7 +77,7 @@ class Thread extends BaseLibrary {
 		$data = [];
 
 		$key = $this->getKeyName(__function__);
-		if (Cache::has($key)) {
+		if (env('CACHE_ENABLED',0) && Cache::has($key)) {
 			$data = Cache::get($key);
 		} else {
 			$data = $this->github->issues()->show('ritey','grimtofu', $number);
