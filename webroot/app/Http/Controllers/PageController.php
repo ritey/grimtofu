@@ -48,9 +48,11 @@ class PageController extends BaseController
 	{
         $page = 1;
         $limit = 10;
-        if ($this->request->get('page')) {
+        $offset = 0;
+        if ($this->request->get('page'))
             $page = $this->request->get('page');
-        }
+        if ($page > 1)
+            $offset = (($page-1)*$limit);
         $key = $this->getKeyName(__function__ . '|' . $page);
         if (env('CACHE_ENABLED',0) && $this->cache->has($key)) {
             $view = $this->cache->get($key);
@@ -58,7 +60,9 @@ class PageController extends BaseController
             $threads = $this->thread->all();
             $sliced_threads = $threads;
             if (count($threads) > $limit) {
-                $sliced_threads = array_slice($threads,$page,$limit);
+                $sliced_threads = array_slice($threads,$offset,$limit);
+                //dd($threads);
+                //dd(count($sliced_threads));
             }
             $th = $this->thread->formatArray($sliced_threads);
             $vars = [
@@ -109,9 +113,11 @@ class PageController extends BaseController
     {
         $page = 1;
         $limit = 10;
-        if ($this->request->get('page')) {
+        $offset = 0;
+        if ($this->request->get('page'))
             $page = $this->request->get('page');
-        }
+        if ($page > 1)
+            $offset = (($page-1)*$limit);
         $key = $this->getKeyName(__function__ . '|' . $channel . '|' . $page);
         if (env('CACHE_ENABLED',0) && $this->cache->has($key)) {
             $view = $this->cache->get($key);
@@ -135,9 +141,11 @@ class PageController extends BaseController
     {
         $page = 1;
         $limit = 10;
-        if ($this->request->get('page')) {
+        $offset = 0;
+        if ($this->request->get('page'))
             $page = $this->request->get('page');
-        }
+        if ($page > 1)
+            $offset = (($page-1)*$limit);
         $key = $this->getKeyName(__function__ . '|' . $channel . '|' . $thread . '|' . $page);
         if (env('CACHE_ENABLED',0) && $this->cache->has($key)) {
             $view = $this->cache->get($key);
