@@ -15,7 +15,7 @@
         <div class="col-sm-10 item">
            <h2>{{ $item['title'] }}</h2>
            <p><a href="">{{ $item['username'] }}</a> &middot; {{ $item['created_at'] }}</p>
-           <p>{{ $item['body'] }}</p>
+           <p>{!! $item['body'] !!}</p>
         </div>
     </div>
     @endforeach
@@ -26,7 +26,7 @@
         </div>
         <div class="col-sm-10 item">
            <p><a href="">{{ $item['username'] }}</a> &middot; {{ $item['updated_at'] }}</p>
-           <p>{{ $item['body'] }}</p>
+           <p>{!! $item['body'] !!}</p>
         </div>
     </div>
     @endforeach

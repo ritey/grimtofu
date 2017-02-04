@@ -29,6 +29,27 @@
 		<div class="jumbotron">
 
 			<h1>Grimtofu</h1>
+            <p class="lead">Simplicity and communication is key.</p>
+
+		</div>
+
+		<div class="row">
+
+			<div class="col-sm-12">
+
+				@if($success_message)
+
+				<div class="alert alert-success" role="alert">{!! $success_message !!}</div>
+
+				@endif
+
+				@if($error_message)
+
+				<div class="alert alert-danger text-center" role="alert">{!! $error_message !!}</div>
+
+				@endif
+
+			</div>
 
 		</div>
 
@@ -80,7 +101,7 @@
 		<div class="row">
 
 			<div class="col-sm-12">
-				<p class="well well-lg small">Developed and maintained by <a href="http://www.coderstudios.com" target="_blank">Coder Studios</a></p>
+				<p class="well well-lg small"><a href="http://grimtofu.coderstudios.com" target="_blank">Grimtofu</a> developed and maintained by <a href="http://www.coderstudios.com" target="_blank">Coder Studios</a></p>
 			</div>
 
 		</div>

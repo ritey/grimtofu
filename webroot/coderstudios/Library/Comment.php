@@ -7,14 +7,16 @@ use GrahamCampbell\GitHub\GitHubManager;
 use Github\Client as GithubClient;
 use Session;
 use Carbon\Carbon;
+use Parsedown;
 
 class Comment extends BaseLibrary {
 
-	public function __construct(GitHubManager $github)
+	public function __construct(GitHubManager $github, Parsedown $parsedown)
 	{
 		$this->namespace = __NAMESPACE__;
 		$this->basename = class_basename($this);
         $this->github = $github;
+        $this->parsedown = $parsedown;
 	}
 
 	public function all($name)
@@ -52,7 +54,7 @@ class Comment extends BaseLibrary {
 		if (is_array($comments) && count($comments)) {
 			foreach($comments as $item) {
 	            $a[] = [
-	                'body'          => $item['body'],
+	                'body'          => $this->parsedown->setMarkupEscaped(true)->text($item['body']),
 	                'created_at'    => Carbon::now()->subseconds(Carbon::now()->diffInSeconds(Carbon::parse($item['created_at'])))->diffForHumans(),
 	                'updated_at'    => Carbon::now()->subseconds(Carbon::now()->diffInSeconds(Carbon::parse($item['updated_at'])))->diffForHumans(),
 	                'username'      => $item['user']['login'],

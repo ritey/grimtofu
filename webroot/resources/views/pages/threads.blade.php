@@ -19,7 +19,7 @@
                     <div class="close">{{ $item['comments'] }}</div>
                 </div>
                 <p><a href="{{ route('channel', ['channel' => $item['label']]) }}">{{ $item['label'] }}</a> &middot; by <a href="">{{ $item['username'] }}</a> &middot; {{ $item['updated_at'] }}</p>
-                <p>{{ $item['body'] }}</p>
+                <p>{!! $item['body'] !!}</p>
             </div>
 
         </div>
@@ -29,7 +29,7 @@
     <div class="row">
         <div class="col-sm-10 offset-sm-1 item">
             <div class="col-sm-12">
-                <p>No threads yet, create a new discussion</p>
+                <p>No threads yet, create a <a href="{{ route('new') }}">new discussion</a>.</p>
             </div>
         </div>
     </div>

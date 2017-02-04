@@ -12,8 +12,7 @@
 */
 
 Route::get('/',['as' => 'home', 'uses' => 'HomeController@index']);
-
-Route::get('/login',['as' => 'github_link', 'uses' => 'HomeController@github']);
+Route::get('/login',['as' => 'github_link', 'uses' => 'HomeController@login']);
 Route::get('/logout',['as' => 'clear-session', 'uses' => 'HomeController@logout']);
 
 Route::get('/index', ['as' => 'index', 'uses' => 'PageController@index']);

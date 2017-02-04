@@ -7,14 +7,16 @@ use GrahamCampbell\GitHub\GitHubManager;
 use Github\Client as GithubClient;
 use Session;
 use Carbon\Carbon;
+use Parsedown;
 
 class Thread extends BaseLibrary {
 
-	public function __construct(GitHubManager $github)
+	public function __construct(GitHubManager $github, Parsedown $parsedown)
 	{
 		$this->namespace = __NAMESPACE__;
 		$this->basename = class_basename($this);
         $this->github = $github;
+        $this->parsedown = $parsedown;
 	}
 
 	public function all()
@@ -100,7 +102,7 @@ class Thread extends BaseLibrary {
 	                'clean_title'   => str_replace('[question_mark]','?',$item['title']),
 	                'slug'          => str_replace(' ','-',strtolower($item['title'])) . '::' . $item['number'],
 	                'label'         => isset($item['labels'][0]) ? $item['labels'][0]['name'] : '',
-	                'body'          => $item['body'],
+	                'body'          => $this->parsedown->setMarkupEscaped(true)->text($item['body']),
 	                'created_at'    => Carbon::now()->subseconds(Carbon::now()->diffInSeconds(Carbon::parse($item['created_at'])))->diffForHumans(),
 	                'updated_at'    => Carbon::now()->subseconds(Carbon::now()->diffInSeconds(Carbon::parse($item['updated_at'])))->diffForHumans(),
 	                'username'      => $item['user']['login'],

@@ -45,7 +45,7 @@ class HomeController extends BaseController
         return redirect()->route('index');
     }
 
-    public function github()
+    public function login()
     {
         $hash = str_random(10);
         Session::put('hash',$hash);
@@ -54,22 +54,13 @@ class HomeController extends BaseController
 
 	public function index()
 	{
-        /* Create a label */
-        //$this->github->issues()->labels()->create('ritey','grimtofu',['name' => 'General forum', 'color' => 'ff0000']);
-
-        /* Create an issue */
-        //dd($this->github->issues()->create('ritey','grimtofu', ['title' => 'Testing new thread', 'body' => 'Look a new thread :)', 'labels' => ['testing-forum']]));
-
-        /* Get issues tagged testing-forum */
-        //dd($this->github->issues()->all('ritey','grimtofu', ['state' => 'open', 'labels' => 'testing-forum' ]));
-        //
-        /* Get an issue using number not id */
-        //dd($this->github->issues()->show('ritey','grimtofu', 3));
-
-        /* Create a comment on an issue using number not id */
-        //dd($this->github->issues()->comments()->create('ritey','grimtofu', 3, ['body' => 'This is a great reply!']));
-
-        /* Get comments on an issue using number not id */
-        //dd($this->github->issues()->comments()->all('ritey','grimtofu', 3));
+        $key = $this->getKeyName(__function__);
+        if (env('CACHE_ENABLED',0) && $this->cache->has($key)) {
+            $view = $this->cache->get($key);
+        } else {
+            $view = view('pages.home',compact('vars'))->render();
+            $this->cache->add($key, $view, env('APP_CACHE_MINUTES',60));
+        }
+        return $view;
 	}
 }
