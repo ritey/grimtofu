@@ -54,7 +54,7 @@ class Comment extends BaseLibrary {
 	            $a[] = [
 	                'body'          => $item['body'],
 	                'created_at'    => Carbon::now()->subseconds(Carbon::now()->diffInSeconds(Carbon::parse($item['created_at'])))->diffForHumans(),
-	                'updated_at'    => Carbon::parse($item['updated_at'])->format('d-m-Y'),
+	                'updated_at'    => Carbon::now()->subseconds(Carbon::now()->diffInSeconds(Carbon::parse($item['updated_at'])))->diffForHumans(),
 	                'username'      => $item['user']['login'],
 	                'avatar'        => $item['user']['avatar_url'],
 	            ];

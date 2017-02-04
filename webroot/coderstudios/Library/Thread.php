@@ -25,7 +25,7 @@ class Thread extends BaseLibrary {
 		if (env('CACHE_ENABLED',0) && Cache::has($key)) {
 			$data = Cache::get($key);
 		} else {
-			$data = $this->github->issues()->all('ritey','grimtofu', ['state' => 'open']);
+			$data = $this->github->issues()->all('ritey','grimtofu', ['state' => 'open', 'sort' => 'updated']);
 			Cache::add($key, $data, (60*6));
 		}
 
@@ -66,7 +66,7 @@ class Thread extends BaseLibrary {
 		if (env('CACHE_ENABLED',0) && Cache::has($key)) {
 			$data = Cache::get($key);
 		} else {
-			$data = $this->github->issues()->all('ritey','grimtofu', ['state' => 'open', 'labels' => $channel ]);
+			$data = $this->github->issues()->all('ritey','grimtofu', ['state' => 'open', 'labels' => $channel, 'sort' => 'updated']);
 			Cache::add($key, $data, (60*6));
 		}
 
@@ -102,7 +102,7 @@ class Thread extends BaseLibrary {
 	                'label'         => isset($item['labels'][0]) ? $item['labels'][0]['name'] : '',
 	                'body'          => $item['body'],
 	                'created_at'    => Carbon::now()->subseconds(Carbon::now()->diffInSeconds(Carbon::parse($item['created_at'])))->diffForHumans(),
-	                'updated_at'    => Carbon::parse($item['updated_at'])->format('d-m-Y'),
+	                'updated_at'    => Carbon::now()->subseconds(Carbon::now()->diffInSeconds(Carbon::parse($item['updated_at'])))->diffForHumans(),
 	                'username'      => $item['user']['login'],
 	                'avatar'        => $item['user']['avatar_url'],
 	            ];

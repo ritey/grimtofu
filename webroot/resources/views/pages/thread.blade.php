@@ -6,18 +6,28 @@
 
 @section('content')
 
-<div>
+<div class="container">
     @foreach($vars['thread'] as $item)
-    <div>
-       <h2>{{ $item['title'] }}</h2>
-       <p><a href="">{{ $item['username'] }}</a> &middot; {{ $item['created_at'] }}</p>
-       <p>{{ $item['body'] }}</p>
+    <div class="row">
+        <div class="col-sm-1">
+            <img class="avatar" src="{{ $item['avatar'] }}" alt="{{ $item['username'] }}" />
+        </div>
+        <div class="col-sm-10 item">
+           <h2>{{ $item['title'] }}</h2>
+           <p><a href="">{{ $item['username'] }}</a> &middot; {{ $item['created_at'] }}</p>
+           <p>{{ $item['body'] }}</p>
+        </div>
     </div>
     @endforeach
     @foreach($vars['comments'] as $item)
-    <div>
-       <p><a href="">{{ $item['username'] }}</a> &middot; {{ $item['created_at'] }}</p>
-       <p>{{ $item['body'] }}</p>
+    <div class="row">
+        <div class="col-sm-1">
+            <img class="avatar" src="{{ $item['avatar'] }}" alt="{{ $item['username'] }}" />
+        </div>
+        <div class="col-sm-10 item">
+           <p><a href="">{{ $item['username'] }}</a> &middot; {{ $item['updated_at'] }}</p>
+           <p>{{ $item['body'] }}</p>
+        </div>
     </div>
     @endforeach
 

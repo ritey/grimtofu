@@ -19,7 +19,7 @@ All threads
                 <div class="alert-dismissible">
                     <div class="close">{{ $item['comments'] }}</div>
                 </div>
-                <p><a href="{{ route('channel', ['channel' => $item['label']]) }}">{{ $item['label'] }}</a> &middot; By <a href="">{{ $item['username'] }}</a> &middot; {{ $item['created_at'] }}</p>
+                <p><a href="{{ route('channel', ['channel' => $item['label']]) }}">{{ $item['label'] }}</a> &middot; by <a href="">{{ $item['username'] }}</a> &middot; {{ $item['updated_at'] }}</p>
                 <p>{{ $item['body'] }}</p>
             </div>
 
