@@ -6,7 +6,7 @@
 
 @section('content')
 
-<div class="container">
+<div class="container threads">
     @foreach($vars['thread'] as $item)
     <div class="row">
         <div class="col-sm-1">
