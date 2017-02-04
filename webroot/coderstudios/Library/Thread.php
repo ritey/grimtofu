@@ -102,6 +102,7 @@ class Thread extends BaseLibrary {
 	                'clean_title'   => str_replace('[question_mark]','?',$item['title']),
 	                'slug'          => str_replace(' ','-',strtolower($item['title'])) . '::' . $item['number'],
 	                'label'         => isset($item['labels'][0]) ? $item['labels'][0]['name'] : '',
+	                'body_intro'	=> strlen($item['body']) > 200 ? '<p>'.substr($item['body'],0,200) . '...</p>' : '<p>'.$item['body'].'</p>',
 	                'body'          => $this->parsedown->setMarkupEscaped(true)->text($item['body']),
 	                'created_at'    => Carbon::now()->subseconds(Carbon::now()->diffInSeconds(Carbon::parse($item['created_at'])))->diffForHumans(),
 	                'updated_at'    => Carbon::now()->subseconds(Carbon::now()->diffInSeconds(Carbon::parse($item['updated_at'])))->diffForHumans(),

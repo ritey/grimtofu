@@ -20,7 +20,7 @@ All threads
                     <div class="close">{{ $item['comments'] }}</div>
                 </div>
                 <p><a href="{{ route('channel', ['channel' => $item['label']]) }}">{{ $item['label'] }}</a> &middot; by <a href="">{{ $item['username'] }}</a> &middot; {{ $item['updated_at'] }}</p>
-                <p>{!! $item['body'] !!}</p>
+                {!! $item['body_intro'] !!}
             </div>
 
         </div>

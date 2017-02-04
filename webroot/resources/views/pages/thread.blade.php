@@ -40,9 +40,9 @@
             <div class="form-group row">
                 <label for="message" class="col-sm-2 control-label sr-only">Message</label>
                 <div class="col-sm-12">
-                    <div class="row">
+                    <div class="row.reply">
                         <div class="col-sm-12">
-                            <textarea autocomplete="false" id="message" name="message" class="form-control" rows="6">{{ old('message') }}</textarea>
+                            <textarea autocomplete="false" id="message" name="message" class="form-control" rows="6" placeholder="Leave a comment">{{ old('message') }}</textarea>
                             @if ($errors->has('message'))
                                 <span class="form-text error">
                                     <strong>{{ $errors->first('message') }}</strong>
@@ -53,7 +53,7 @@
                 </div>
             </div>
 
-            <div class="form-group row">
+            <div class="form-group row.reply">
                 <div class="col-sm-12 text-xs-right text-sm-right">
                     <button type="submit" class="btn btn-primary">Reply</button>
                 </div>

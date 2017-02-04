@@ -27,6 +27,10 @@ body {
 	border-bottom:1px solid #F5F5F5;
 }
 
+.threads .row.reply {
+	border:0px;
+}
+
 .item {
 	padding:0.5rem;
 	color:#999;
@@ -38,6 +42,10 @@ body {
 
 .threads .row .item {
 	padding-top:1.5rem;
+}
+
+.item img {
+	max-width:100%;
 }
 
 .avatar {
