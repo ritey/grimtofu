@@ -33,6 +33,18 @@
             </div>
         </div>
     </div>
+    @else
+    <div class="row">
+
+        <div class="col-sm-12">
+
+            <div class="justify-content-center">
+                {!! $vars['threads']->links() !!}
+            </div>
+
+        </div>
+
+    </div>
     @endif
 </div>
 

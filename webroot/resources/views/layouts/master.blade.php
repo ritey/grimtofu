@@ -36,18 +36,30 @@
 
 			<div class="col-sm-12 col-md-3">
 
-				<a href="{{ route('new') }}" class="btn btn-primary">New discussion</a>
+				<p class="text-center"><a href="{{ route('new') }}" class="btn btn-primary">New discussion</a></p>
 
 				<hr />
 
-		        <ul class="list-unstyled">
-		        	<li><a href="{{ route('index') }}">All</a></li>
-		            @foreach($categories as $item)
-		            <li>
-		                <a href="{{ route('channel', ['channel' => strtolower($item['name'])]) }}">{{ $item['name'] }}</a>
-		            </li>
-		            @endforeach
-		        </ul>
+				<div class="row">
+
+					<div class="col-sm-12">
+
+						<div class="menu">
+
+					        <ul class="list-unstyled">
+					        	<li><a href="{{ route('index') }}">All</a></li>
+					            @foreach($categories as $item)
+					            <li>
+					                <a href="{{ route('channel', ['channel' => strtolower($item['name'])]) }}">{{ $item['name'] }}</a>
+					            </li>
+					            @endforeach
+					        </ul>
+
+					    </div>
+
+				    </div>
+
+				</div>
 
 			</div>
 
