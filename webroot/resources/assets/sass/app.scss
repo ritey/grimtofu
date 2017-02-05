@@ -28,8 +28,13 @@ body {
 	border-bottom:1px solid #F5F5F5;
 }
 
-.threads .row:nth-last-child {
-	border-bottom:0;
+.active {
+	padding:0.6rem;
+	background:rgb(245,245,245);
+}
+
+.threads .row:nth-last-child(2) {
+	border-bottom:0px;
 }
 
 .threads .row.reply {

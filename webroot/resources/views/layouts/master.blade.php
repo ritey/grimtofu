@@ -67,11 +67,11 @@
 
 						<div class="menu">
 
-					        <ul class="list-unstyled">
-					        	<li><a href="{{ route('index') }}">All</a></li>
+					        <ul class="nav flex-column">
+					        	<li class="nav-item"><a class="nav-link" href="{{ route('index') }}">All</a></li>
 					            @foreach($categories as $item)
-					            <li>
-					                <a href="{{ route('channel', ['channel' => strtolower($item['name'])]) }}">{{ $item['name'] }}</a>
+					            <li class="nav-item">
+					                <a class="{{ (strtolower($item['name']) == strtolower($channel)) ? 'nav-link active' : 'nav-link' }}" href="{{ route('channel', ['channel' => strtolower($item['name'])]) }}">{{ $item['name'] }}</a>
 					            </li>
 					            @endforeach
 					        </ul>
