@@ -56,6 +56,7 @@ class PageController extends BaseController
         if ($page > 1)
             $offset = (($page-1)*$limit);
         $key = $this->getKeyName(__function__ . '|' . $page);
+        $this->request->session()->put('channel','all');
         if (env('CACHE_ENABLED',0) && $this->cache->has($key)) {
             $view = $this->cache->get($key);
         } else {
