@@ -15,6 +15,10 @@ require('laravel-elixir-vue-2');
 
 elixir((mix) => {
     mix.sass('app.scss')
+    	.styles([
+    		'public/css/app.css',
+    		'./node_modules/simplemde/dist/simplemde.min.css',
+    	], 'public/css/app.css', './')
        .webpack('app.js')
        .version([
 			'css/app.css',

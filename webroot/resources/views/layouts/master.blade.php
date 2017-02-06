@@ -107,6 +107,9 @@
 		</div>
 
 	</div>
+
+	<script src="{{ elixir("js/app.js") }}" type="text/javascript"></script>
+
 @yield('footer')
 </body>
 </html>
