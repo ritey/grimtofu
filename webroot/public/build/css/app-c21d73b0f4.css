@@ -8565,6 +8565,11 @@ body {
   border-bottom: 1px solid #F5F5F5;
 }
 
+.menu li a.active {
+  padding: 0.6rem;
+  background: whitesmoke;
+}
+
 .threads .row:nth-last-child(2) {
   border-bottom: 0px;
 }
