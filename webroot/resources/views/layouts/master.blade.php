@@ -16,6 +16,7 @@
 			<div class="col-sm-12">
 
 				<ul class="nav justify-content-end">
+					<li class="nav-item"><a class="nav-link" href="{{ route('help') }}">Help</a></li>
 					@if(!$token)
 					<li class="nav-item"><a class="nav-link" href="{{ route('github_link') }}">Login</a></li>
 					@else

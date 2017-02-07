@@ -10,6 +10,8 @@ use CoderStudios\Library\Comment;
 use CoderStudios\Library\User;
 use CoderStudios\Requests\Thread as ThreadRequest;
 use CoderStudios\Requests\Comment as CommentRequest;
+use Parsedown;
+use Illuminate\Filesystem\Filesystem;
 
 class PageController extends BaseController
 {
@@ -33,7 +35,7 @@ class PageController extends BaseController
      *
      * @return void
      */
-	public function __construct(Request $request, Cache $cache, Thread $thread, Category $category, Comment $comment, User $user)
+	public function __construct(Request $request, Cache $cache, Thread $thread, Category $category, Comment $comment, User $user, Filesystem $file, Parsedown $parsedown)
 	{
 		parent::__construct($cache);
 		$this->namespace = __NAMESPACE__;
@@ -44,6 +46,8 @@ class PageController extends BaseController
         $this->thread = $thread;
         $this->comment = $comment;
         $this->user = $user;
+        $this->file = $file;
+        $this->parsedown = $parsedown;
 	}
 
 	public function index()
@@ -188,6 +192,26 @@ class PageController extends BaseController
                 'threads' => $this->thread->threadsByUsername($username),
             ];
             $view = view('pages.user',compact('vars'))->render();
+            $this->cache->add($key, $view, env('APP_CACHE_MINUTES',60));
+        }
+        return $view;
+    }
+
+    public function help()
+    {
+        $key = $this->getKeyName(__function__);
+        if (env('CACHE_ENABLED',0) && $this->cache->has($key)) {
+            $view = $this->cache->get($key);
+        } else {
+            $body = $this->file->get(resource_path() . '/md/help.md');
+            $body = $this->parsedown
+                ->setMarkupEscaped(true)
+                ->setBreaksEnabled(true)
+                ->text($body);
+            $vars = [
+                'content' => html_entity_decode($body),
+            ];
+            $view = view('pages.help',compact('vars'))->render();
             $this->cache->add($key, $view, env('APP_CACHE_MINUTES',60));
         }
         return $view;
