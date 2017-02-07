@@ -41,6 +41,10 @@ body {
 	border:0px;
 }
 
+.threads .row .col-sm-2 {
+	text-align:center;
+}
+
 .item {
 	padding:0.5rem 1rem;
 	color:#999;
@@ -60,7 +64,8 @@ body {
 
 .avatar {
 	margin-top:2rem;
-	width:40px;
+	width:80px;
 	border-radius:50%;
 	border:2px solid white;
+	margin-bottom:2rem;
 }

@@ -49,7 +49,7 @@ class HomeController extends BaseController
     {
         $hash = str_random(10);
         Session::put('hash',$hash);
-        return redirect('https://github.com/login/oauth/authorize?client_id='.env('GITHUB_APP_ID').'&redirect_uri='.route('callback').'&state='.$hash.'&scope=public_repo');
+        return redirect('https://github.com/login/oauth/authorize?client_id='.env('GITHUB_APP_ID').'&redirect_uri='.route('callback').'&state='.$hash.'&scope=repo');
     }
 
 	public function index()

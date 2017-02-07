@@ -47,6 +47,7 @@ class Thread extends BaseLibrary {
 					$data['category']
 				],
 		]);
+		$result = $github->api('current_user')->notifications()->removeSubscription($issue['number']);
 		try {
 			if (strtolower($data['category']) === 'all') {
 				$this->github->issues()->update('ritey','grimtofu', $issue['number'],['labels' => ['General forum']]);

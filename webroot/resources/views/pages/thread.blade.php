@@ -9,7 +9,7 @@
 <div class="container threads">
     @foreach($vars['thread'] as $item)
     <div class="row">
-        <div class="col-sm-1">
+        <div class="col-sm-2">
             <img class="avatar" src="{{ $item['avatar'] }}" alt="{{ $item['username'] }}" />
         </div>
         <div class="col-sm-10 item">
@@ -21,7 +21,7 @@
     @endforeach
     @foreach($vars['comments'] as $item)
     <div class="row">
-        <div class="col-sm-1">
+        <div class="col-sm-2">
             <img class="avatar" src="{{ $item['avatar'] }}" alt="{{ $item['username'] }}" />
         </div>
         <div class="col-sm-10 item">
@@ -64,6 +64,8 @@
     </div>
     @endif
 
+    @if(strlen($vars['comments']->links()))
+
     <div class="row">
 
         <div class="col-sm-12">
@@ -75,6 +77,8 @@
         </div>
 
     </div>
+
+    @endif
 
 
 </div>
