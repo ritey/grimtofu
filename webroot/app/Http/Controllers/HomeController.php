@@ -54,6 +54,7 @@ class HomeController extends BaseController
 
 	public function index()
 	{
+        $this->request->session()->put('channel','');
         $key = $this->getKeyName(__function__);
         if (env('CACHE_ENABLED',0) && $this->cache->has($key)) {
             $view = $this->cache->get($key);

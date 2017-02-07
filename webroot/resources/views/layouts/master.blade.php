@@ -13,10 +13,14 @@
 	<div class="container">
 
 		<div class="row">
-			<div class="col-sm-12">
-
-				<ul class="nav justify-content-end">
-					<li class="nav-item"><a class="nav-link" href="{{ route('help') }}">Help</a></li>
+			<div class="col-6 col-sm-6">
+				<ul class="nav nav-pills">
+					<li class="nav-item"><a class="nav-link {{ $request->route()->getUri() == '/' ? 'active' : '' }}" href="{{ route('home') }}">Home</a></li>
+				</ul>
+			</div>
+			<div class="col-6 col-sm-6">
+				<ul class="nav nav-pills justify-content-end">
+					<li class="nav-item"><a class="nav-link {{ $request->route()->getUri() == 'help' ? 'active' : '' }}" href="{{ route('help') }}">Help</a></li>
 					@if(!$token)
 					<li class="nav-item"><a class="nav-link" href="{{ route('github_link') }}">Login</a></li>
 					@else
@@ -25,6 +29,12 @@
 				</ul>
 
 			</div>
+		</div>
+
+		<div class="row">
+
+			<div class="col-sm-12"><hr /></div>
+
 		</div>
 
 		<div class="jumbotron">
@@ -71,8 +81,8 @@
 					        <ul class="nav flex-column">
 					        	<li class="nav-item"><a class="nav-link {{ $channel == 'all' ? 'active' : '' }}" href="{{ route('index') }}">All</a></li>
 					            @foreach($categories as $item)
-					            <li class="nav-item">
-					                <a class="{{ (strtolower($item['name']) == strtolower($channel)) ? 'nav-link active' : 'nav-link' }}" href="{{ route('channel', ['channel' => strtolower($item['name'])]) }}">{{ $item['name'] }}</a>
+					            <li class="nav-item" title="{{ $channel }}">
+					                <a class="{{ (strtolower($item['name']) == strtolower($channel) && $channel != '') ? 'nav-link active' : 'nav-link' }}" href="{{ route('channel', ['channel' => strtolower($item['name'])]) }}">{{ $item['name'] }}</a>
 					            </li>
 					            @endforeach
 					        </ul>

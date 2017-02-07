@@ -84,7 +84,7 @@ class PageController extends BaseController
     public function newThread()
     {
         if (!$this->request->session()->get('token')) {
-            return redirect()->route('index')->with('error_message','You need to login to be able to create a new discussion');
+            return redirect()->route('index')->with('error_message','You need to <a href="'.route('github_link').'">login</a> to be able to create a new discussion');
         }
         $key = $this->getKeyName(__function__);
         if (env('CACHE_ENABLED',0) && $this->cache->has($key)) {
@@ -199,6 +199,7 @@ class PageController extends BaseController
 
     public function help()
     {
+        $this->request->session()->put('channel','');
         $key = $this->getKeyName(__function__);
         if (env('CACHE_ENABLED',0) && $this->cache->has($key)) {
             $view = $this->cache->get($key);

@@ -6,6 +6,7 @@ use Session;
 use Illuminate\Contracts\View\View;
 use CoderStudios\Library\Category;
 use CoderStudios\Library\User;
+use Illuminate\Http\Request;
 
 class MasterComposer {
 
@@ -18,10 +19,11 @@ class MasterComposer {
     |
     */
 
-    public function __construct(Category $category, User $user)
+    public function __construct(Request $request, Category $category, User $user)
     {
         $this->category = $category;
         $this->user = $user;
+        $this->request = $request;
     }
 
 	public function compose(View $view)
@@ -31,6 +33,7 @@ class MasterComposer {
 		$view->with('error_message', Session::pull('error_message'));
 		$view->with('csrf_error', Session::pull('csrf_error'));
         $view->with('channel', Session::get('channel'));
+        $view->with('request', $this->request);
         $token = Session::get('token');
         $view->with('token', $token);
         $name = null;
